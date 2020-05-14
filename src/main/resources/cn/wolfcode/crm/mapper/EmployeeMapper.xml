@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wolfcode.crm.mapper.EmployeeMapper">
+  <resultMap id="BaseResultMap" type="cn.wolfcode.crm.domain.Employee">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="hireDate" jdbcType="DATE" property="hireDate" />
+    <result column="state" jdbcType="BIT" property="state" />
+    <result column="admin" jdbcType="BIT" property="admin" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from employee
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.wolfcode.crm.domain.Employee" useGeneratedKeys="true">
+    insert into employee (username, realname, password, 
+      tel, email, dept_id, 
+      hireDate, state, admin)
+    values (#{username,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{dept.id,jdbcType=BIGINT},
+      #{hireDate,jdbcType=DATE}, #{state,jdbcType=BIT}, #{admin,jdbcType=BIT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.wolfcode.crm.domain.Employee">
+    update employee
+    set username = #{username,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      dept_id = #{dept.id,jdbcType=BIGINT},
+      hireDate = #{hireDate,jdbcType=DATE},
+      state = #{state,jdbcType=BIT},
+      admin = #{admin,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, username, realname, password, tel, email, dept_id, hireDate, state, admin
+    from employee
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, username, realname, password, tel, email, dept_id, hireDate, state, admin
+    from employee
+  </select>
+</mapper>
