@@ -19,7 +19,7 @@ public class Employee {
 
     private String email;
 
-    private Department dept_id;
+    private Department dept;
 
     private Date hireDate;
 
