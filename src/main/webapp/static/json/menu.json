@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "text": "部门管理",
+    "url": "department.html"
+  },
+  {
+    "id": 2,
+    "text": "员工管理",
+    "url": "employee.html"
+  }
+]
