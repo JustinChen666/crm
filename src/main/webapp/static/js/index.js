@@ -10,6 +10,7 @@ $(function () {
                 $("#tabs").tabs("add", {
                     title: node.text,
                     selected: true,
+                    closable:true,
                     //href:node.url
                     content: "<iframe src='" + node.url + "' width='100%', height='99%' frameborder='0'>"
                 });

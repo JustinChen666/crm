@@ -1,5 +1,6 @@
 package cn.wolfcode.crm.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ public class Employee {
 
     private Department dept;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",locale = "GMT+8")
     private Date hireDate;
 
     private boolean state;

@@ -20,15 +20,17 @@ public class EmployeeServiceImplTest {
 
     @Test
     public void insert() {
-        Employee employee = new Employee();
-        employee.setAdmin(true);
-        employee.setState(true);
-        employee.setEmail("111@qq.com");
-        employee.setHireDate(new Date());
-        employee.setPassword("1");
-        employee.setUsername("admin");
-        employee.setRealname("admin");
-        employee.setTel("111");
-        employeeService.insert(employee);
+        for (int i = 1; i <= 15; i++) {
+            Employee employee = new Employee();
+            employee.setAdmin(false);
+            employee.setState(false);
+            employee.setEmail("111@qq.com");
+            employee.setHireDate(new Date());
+            employee.setPassword("1");
+            employee.setUsername("wolf"+i);
+            employee.setRealname("wolf"+i);
+            employee.setTel("111");
+            employeeService.insert(employee);
+        }
     }
 }

@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.wolfcode.crm.mapper.EmployeeMapper">
-  <resultMap id="BaseResultMap" type="cn.wolfcode.crm.domain.Employee">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="realname" jdbcType="VARCHAR" property="realname" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="tel" jdbcType="VARCHAR" property="tel" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="hireDate" jdbcType="DATE" property="hireDate" />
-    <result column="state" jdbcType="BIT" property="state" />
-    <result column="admin" jdbcType="BIT" property="admin" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <resultMap id="BaseResultMap" type="cn.wolfcode.crm.domain.Employee">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="realname" jdbcType="VARCHAR" property="realname"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="tel" jdbcType="VARCHAR" property="tel"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="hireDate" jdbcType="DATE" property="hireDate"/>
+        <result column="state" jdbcType="BIT" property="state"/>
+        <result column="admin" jdbcType="BIT" property="admin"/>
+        <association property="dept" javaType="Department" columnPrefix="d_" fetchType="eager">
+            <id property="id" column="id"/>
+            <result property="sn" column="sn"/>
+            <result property="name" column="name"/>
+            <result property="state" column="state"/>
+        </association>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from employee
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.wolfcode.crm.domain.Employee" useGeneratedKeys="true">
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.wolfcode.crm.domain.Employee"
+            useGeneratedKeys="true">
     insert into employee (username, realname, password, 
       tel, email, dept_id, 
       hireDate, state, admin)
@@ -24,7 +31,7 @@
       #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{dept.id,jdbcType=BIGINT},
       #{hireDate,jdbcType=DATE}, #{state,jdbcType=BIT}, #{admin,jdbcType=BIT})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="cn.wolfcode.crm.domain.Employee">
+    <update id="updateByPrimaryKey" parameterType="cn.wolfcode.crm.domain.Employee">
     update employee
     set username = #{username,jdbcType=VARCHAR},
       realname = #{realname,jdbcType=VARCHAR},
@@ -37,13 +44,28 @@
       admin = #{admin,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id, username, realname, password, tel, email, dept_id, hireDate, state, admin
-    from employee
-    where id = #{id,jdbcType=BIGINT}
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <include refid="base_column"/>
+    <include refid="base_table"/>
+    where e.id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, username, realname, password, tel, email, dept_id, hireDate, state, admin
-    from employee
+    <select id="selectAll" resultMap="BaseResultMap">
+        <include refid="base_column"/>
+        <include refid="base_table"/>
+    </select>
+    <select id="query4Count" resultType="int">
+    select count(id) from employee
   </select>
+    <select id="query4List" resultMap="BaseResultMap">
+        <include refid="base_column"/>
+        <include refid="base_table"/>
+        limit #{start},#{rows}
+    </select>
+    <sql id="base_column">
+        select e.id, e.username, e.realname, e.password, e.tel, e.email, e.dept_id, e.hireDate, e.state, e.admin,
+        d.id d_id,d.name d_name,d.sn d_sn,d.state d_state
+    </sql>
+    <sql id="base_table">
+        from employee e left join department d on e.dept_id=d.id
+    </sql>
 </mapper>
