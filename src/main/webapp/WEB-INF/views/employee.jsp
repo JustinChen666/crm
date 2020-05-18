@@ -32,11 +32,11 @@
         <table align="center" style="margin-top:20px">
             <tr>
                 <td>用户名:</td>
-                <td><input name="username" class="easyui-textbox"></td>
+                <td><input name="username" class="easyui-textbox" required="true" ></td>
             </tr>
             <tr>
                 <td>真实姓名:</td>
-                <td><input name="realname" class="easyui-textbox"></td>
+                <td><input name="realname" class="easyui-textbox" validType="length[1,5]"></td>
             </tr>
             <tr>
                 <td>密码:</td>
@@ -48,7 +48,7 @@
             </tr>
             <tr>
                 <td>邮箱:</td>
-                <td><input name="email" class="easyui-textbox"></td>
+                <td><input name="email" class="easyui-textbox" validType="email"></td>
             </tr>
             <tr>
                 <td>部门:</td>
