@@ -18,4 +18,6 @@ public interface IEmployeeService {
     int updateByPrimaryKey(Employee record);
 
     PageResult query(EmployeeQuery query);
+
+    void changeState(Long id);
 }

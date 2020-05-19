@@ -18,7 +18,7 @@
 <div id="emp_toolbar">
     <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="add()">新增</a>
     <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="edit()">编辑</a>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'" onclick="del()">删除</a>
+    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'" id="btn_changeState" onclick="changeState()">设置离职</a>
     <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'" onclick="reload()">刷新</a>
 </div>
 

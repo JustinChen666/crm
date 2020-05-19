@@ -46,4 +46,15 @@ public class EmployeeController {
         }
     }
 
+    @RequestMapping("changeState")
+    @ResponseBody
+    public JsonResult changeState(Long id) {
+        try {
+            employeeService.changeState(id);
+            return new JsonResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new JsonResult().mark("操作失败!");
+        }
+    }
 }

@@ -20,4 +20,6 @@ public interface EmployeeMapper {
     int query4Count(QueryObject query);
 
     List<Employee> query4List(QueryObject query);
+
+    void changeState(Long id);
 }

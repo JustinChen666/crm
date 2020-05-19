@@ -45,4 +45,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
         System.out.println(emps);
         return new PageResult(count, emps);
     }
+
+    public void changeState(Long id) {
+        mapper.changeState(id);
+    }
 }

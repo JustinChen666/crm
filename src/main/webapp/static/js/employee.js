@@ -29,7 +29,18 @@ $(function () {
                     return value ? "是" : "否";
                 }
             }
-        ]]
+        ]],
+        onClickRow: function (index, row) {
+            if (row.state) {
+                $("#btn_changeState").linkbutton({
+                    text: '设置离职'
+                });
+            } else {
+                $("#btn_changeState").linkbutton({
+                    text: '设置复职'
+                });
+            }
+        }
     });
 
     $("#emp_dialog").dialog({
@@ -56,21 +67,21 @@ function add() {
 //编辑按钮
 function edit() {
     var row = $("#emp_datagrid").datagrid('getSelected');
-    if(!row){
+    if (!row) {
         //提示
-        $.messager.alert('温馨提示','亲,请选中一条数据!');
+        $.messager.alert('温馨提示', '亲,请选中一条数据!');
         return;
     }
 
     //隐藏密码框
     $("#tr_password").hide();
 
-    if(row.dept){
-        row["dept.id"]=row.dept.id;
+    if (row.dept) {
+        row["dept.id"] = row.dept.id;
     }
 
     //回显数据
-    $("#emp_form").form('load',row);
+    $("#emp_form").form('load', row);
 
     $("#emp_dialog").dialog('open');
     $("#emp_dialog").dialog('setTitle', '编辑员工');
@@ -78,7 +89,24 @@ function edit() {
 
 //离职按钮
 function changeState() {
-
+    var row = $("#emp_datagrid").datagrid('getSelected');
+    if (!row) {
+        //提示
+        $.messager.alert('温馨提示', '亲,请选中一条数据!');
+    }
+    $.messager.confirm('确认', '您确认设置为离职吗?', function (r) {
+        if (r) {
+            $.get('/employee/changeState.do', {id: row.id}, function (data) {
+                if (data.success) {
+                    $.messager.alert('温馨提示', '操作成功!', 'info', function () {
+                        $("#emp_datagrid").datagrid('reload');
+                    });
+                } else {
+                    $.messager.alert("温馨提示", data.msg);
+                }
+            });
+        }
+    });
 }
 
 //保存按钮
