@@ -6,5 +6,5 @@ import lombok.Setter;
 @Setter
 @Getter
 public class EmployeeQuery extends QueryObject{
-
+    private String keyword;
 }

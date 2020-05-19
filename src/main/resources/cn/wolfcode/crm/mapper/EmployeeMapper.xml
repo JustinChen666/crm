@@ -56,10 +56,12 @@
     </select>
     <select id="query4Count" resultType="int">
     select count(id) from employee
+    <include refid="where_sql"/>
   </select>
     <select id="query4List" resultMap="BaseResultMap">
         <include refid="base_column"/>
         <include refid="base_table"/>
+        <include refid="where_sql"/>
         limit #{start},#{rows}
     </select>
     <sql id="base_column">
@@ -68,5 +70,14 @@
     </sql>
     <sql id="base_table">
         from employee e left join department d on e.dept_id=d.id
+    </sql>
+    <sql id="where_sql">
+        <where>
+            <if test="keyword!=null and keyword!=''">
+                and (username like concat('%',#{keyword},'%'))
+                or
+                (tel like concat('%',#{keyword},'%'))
+            </if>
+        </where>
     </sql>
 </mapper>

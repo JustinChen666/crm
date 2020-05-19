@@ -134,3 +134,10 @@ function save() {
 function cancel() {
     $("#emp_dialog").dialog("close");
 }
+
+//高级查询
+function searchs() {
+    //获取关键字内容
+    var value = $("#keyword").textbox('getValue');
+    $("#emp_datagrid").datagrid('load',{keyword:value});
+}
