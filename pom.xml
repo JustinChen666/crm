@@ -5,8 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.wolfcode</groupId>
     <artifactId>crm</artifactId>
-    <version>1.0</version>
     <packaging>war</packaging>
+    <version>1.0</version>
+    <name>crm Maven Webapp</name>
+    <url>http://maven.apache.org</url>
 
     <!-- 项目编码 -->
     <properties>
@@ -172,6 +174,7 @@
             <artifactId>mybatis-generator-core</artifactId>
             <version>1.4.0</version>
         </dependency>
+
     </dependencies>
 
     <!-- 项目编译版本和项目运行环境 -->

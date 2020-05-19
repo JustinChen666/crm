@@ -35,20 +35,18 @@
     update employee
     set username = #{username,jdbcType=VARCHAR},
       realname = #{realname,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       dept_id = #{dept.id,jdbcType=BIGINT},
       hireDate = #{hireDate,jdbcType=DATE},
-      state = #{state,jdbcType=BIT},
       admin = #{admin,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    <include refid="base_column"/>
-    <include refid="base_table"/>
-    where e.id = #{id,jdbcType=BIGINT}
-  </select>
+        <include refid="base_column"/>
+        <include refid="base_table"/>
+        where e.id = #{id,jdbcType=BIGINT}
+    </select>
     <select id="selectAll" resultMap="BaseResultMap">
         <include refid="base_column"/>
         <include refid="base_table"/>
@@ -62,7 +60,7 @@
         limit #{start},#{rows}
     </select>
     <sql id="base_column">
-        select e.id, e.username, e.realname, e.password, e.tel, e.email, e.dept_id, e.hireDate, e.state, e.admin,
+        select e.id, e.username, e.realname,e.tel, e.email, e.dept_id, e.hireDate, e.state, e.admin,
         d.id d_id,d.name d_name,d.sn d_sn,d.state d_state
     </sql>
     <sql id="base_table">

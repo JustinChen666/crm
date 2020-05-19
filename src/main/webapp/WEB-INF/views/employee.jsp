@@ -23,22 +23,23 @@
 </div>
 
 <div id="emp_buttons">
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'" onclick="add()">保存</a>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-cancel'" onclick="edit()">取消</a>
+    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'" onclick="save()">保存</a>
+    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-cancel'" onclick="cancel()">取消</a>
 </div>
 
 <div id="emp_dialog">
     <form id="emp_form" method="post">
+        <input type="hidden" name="id">
         <table align="center" style="margin-top:20px">
             <tr>
                 <td>用户名:</td>
-                <td><input name="username" class="easyui-textbox" required="true" ></td>
+                <td><input name="username" class="easyui-textbox" data-options="required:true"></td>
             </tr>
             <tr>
                 <td>真实姓名:</td>
                 <td><input name="realname" class="easyui-textbox" validType="length[1,5]"></td>
             </tr>
-            <tr>
+            <tr id="tr_password">
                 <td>密码:</td>
                 <td><input name="password" class="easyui-passwordbox"></td>
             </tr>
@@ -52,7 +53,9 @@
             </tr>
             <tr>
                 <td>部门:</td>
-                <td><input name="dept" class="easyui-combobox" data-options="panelHeight:'auto',valueField:'id',textField:'name',url:'/department/selectAll.do'"></td>
+                <td><input name="dept.id" class="easyui-combobox"
+                           data-options="panelHeight:'auto',valueField:'id',textField:'name',url:'/department/selectAll.do'">
+                </td>
             </tr>
             <tr>
                 <td>入职时间:</td>
@@ -68,11 +71,10 @@
                         value:'1'
                     },{
                         text:'否',
-                        value:'Ruby'
+                        value:'0'
                     }]">
                 </td>
             </tr>
-
         </table>
     </form>
 </div>

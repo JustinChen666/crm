@@ -33,9 +33,76 @@ $(function () {
     });
 
     $("#emp_dialog").dialog({
-        width:330,
-        height:320,
-        buttons:'#emp_buttons'
+        width: 330,
+        height: 320,
+        buttons: '#emp_buttons',
+        closed: true,
+        onClose: function () {
+            $("#emp_form").form('clear');
+        }
     });
 
 })
+
+//新增按钮
+function add() {
+    //显示密码框
+    $("#tr_password").show();
+
+    $("#emp_dialog").dialog('open');
+    $("#emp_dialog").dialog('setTitle', '新增员工');
+}
+
+//编辑按钮
+function edit() {
+    var row = $("#emp_datagrid").datagrid('getSelected');
+    if(!row){
+        //提示
+        $.messager.alert('温馨提示','亲,请选中一条数据!');
+        return;
+    }
+
+    //隐藏密码框
+    $("#tr_password").hide();
+
+    if(row.dept){
+        row["dept.id"]=row.dept.id;
+    }
+
+    //回显数据
+    $("#emp_form").form('load',row);
+
+    $("#emp_dialog").dialog('open');
+    $("#emp_dialog").dialog('setTitle', '编辑员工');
+}
+
+//离职按钮
+function changeState() {
+
+}
+
+//保存按钮
+function save() {
+    $("#emp_form").form('submit', {
+        url: '/employee/saveOrUpdate.do',
+        success: function (data) {
+            data = $.parseJSON(data);
+            if (data.success) {
+                $.messager.alert('温馨提示', '保存成功!', 'info', function () {
+                    //关闭对话框
+                    cancel();
+                    //重新加载数据表格
+                    //reload方法会保持在当前页
+                    $("#emp_datagrid").datagrid('reload');
+                });
+            } else {
+                $.messager.alert("温馨提示", data.msg);
+            }
+        }
+    });
+}
+
+//取消按钮
+function cancel() {
+    $("#emp_dialog").dialog("close");
+}
