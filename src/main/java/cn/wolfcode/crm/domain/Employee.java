@@ -10,8 +10,7 @@ import java.util.Date;
 
 @Setter
 @Getter
-public class Employee {
-    private Long id;
+public class Employee extends BaseDomain{
 
     private String username;
 

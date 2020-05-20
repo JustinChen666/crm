@@ -4,29 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <!--拷贝过来的4个必要引入需要修改文件的导入位置,按住ctrl按键移动鼠标,如果能点击进去就是成功引入了-->
-    <link rel="stylesheet" type="text/css" href="/static/plugins/easyui/themes/gray/easyui.css">
-    <link rel="stylesheet" type="text/css" href="/static/plugins/easyui/themes/icon.css">
-    <link rel="stylesheet" type="text/css" href="/static/plugins/easyui/themes/color.css">
-    <script type="text/javascript" src="/static/plugins/easyui/jquery.min.js"></script>
-    <script type="text/javascript" src="/static/plugins/easyui/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="/static/plugins/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <%@include file="/static/common/common.jsp"%>
     <script type="text/javascript" src="/static/js/employee.js"></script>
 </head>
 <body>
 <table id="emp_datagrid"></table>
 <div id="emp_toolbar">
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="add();">新增</a>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="edit();">编辑</a>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'" id="btn_changeState" onclick="changeState()">设置离职</a>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'" onclick="reload();">刷新</a>
+    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" data-cmd="add">新增</a>
+    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" data-cmd="edit">编辑</a>
+    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'" id="btn_changeState" data-cmd="changeState">设置离职</a>
+    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'" data-cmd="reload">刷新</a>
     <input class="easyui-textbox" id="keyword" prompt="请输入用户名或电话"/>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" onclick="searchs();"/>
+    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" data-cmd="searchs();"/>
 </div>
 
 <div id="emp_buttons">
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'" onclick="save()">保存</a>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-cancel'" onclick="cancel()">取消</a>
+    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'" data-cmd="save">保存</a>
+    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-cancel'" data-cmd="cancel">取消</a>
 </div>
 
 <div id="emp_dialog">

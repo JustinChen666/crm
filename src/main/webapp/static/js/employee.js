@@ -1,5 +1,108 @@
 $(function () {
-    $("#emp_datagrid").datagrid({
+
+    //1.抽取变量
+    var emp_datagrid = $("#emp_datagrid");
+    var emp_dialog = $("#emp_dialog");
+    var emp_form = $("#emp_form");
+
+    var methodObj = {
+        //新增按钮
+        add: function () {
+            //显示密码框
+            $("#tr_password").show();
+
+            emp_dialog.dialog('open');
+            emp_dialog.dialog('setTitle', '新增员工');
+        },
+
+//编辑按钮
+        edit: function () {
+            var row = emp_datagrid.datagrid('getSelected');
+            if (!row) {
+                //提示
+                $.messager.alert('温馨提示', '亲,请选中一条数据!');
+                return;
+            }
+
+            //隐藏密码框
+            $("#tr_password").hide();
+
+            if (row.dept) {
+                row["dept.id"] = row.dept.id;
+            }
+
+            //回显数据
+            emp_form.form('load', row);
+
+            emp_dialog.dialog('open');
+            emp_dialog.dialog('setTitle', '编辑员工');
+        },
+
+//离职按钮
+        changeState: function () {
+            var row = emp_datagrid.datagrid('getSelected');
+            if (!row) {
+                //提示
+                $.messager.alert('温馨提示', '亲,请选中一条数据!');
+            }
+            $.messager.confirm('确认', '您确认设置为离职吗?', function (r) {
+                if (r) {
+                    $.get('/employee/changeState.do', {id: row.id}, function (data) {
+                        if (data.success) {
+                            $.messager.alert('温馨提示', '操作成功!', 'info', function () {
+                                emp_datagrid.datagrid('reload');
+                            });
+                        } else {
+                            $.messager.alert("温馨提示", data.msg);
+                        }
+                    });
+                }
+            });
+        },
+
+//保存按钮
+        save: function () {
+            emp_form.form('submit', {
+                url: '/employee/saveOrUpdate.do',
+                success: function (data) {
+                    data = $.parseJSON(data);
+                    if (data.success) {
+                        $.messager.alert('温馨提示', '保存成功!', 'info', function () {
+                            //关闭对话框
+                            methodObj.cancel();
+                            //重新加载数据表格
+                            //reload方法会保持在当前页
+                            emp_datagrid.datagrid('reload');
+                        });
+                    } else {
+                        $.messager.alert("温馨提示", data.msg);
+                    }
+                }
+            });
+        },
+
+//取消按钮
+        cancel: function () {
+            emp_dialog.dialog("close");
+        },
+
+//高级查询
+        searchs: function () {
+            //获取关键字内容
+            var value = $("#keyword").textbox('getValue');
+            emp_datagrid.datagrid('load', {keyword: value});
+        }
+    }
+
+    //给按钮统一绑定事件
+    $("a[data-cmd]").click(function () {
+        //根据按钮的data-cmd属性值来调用方法
+        var methodName = $(this).data('cmd');
+        methodObj[methodName]();
+    });
+
+
+    emp_datagrid.datagrid({
         fit: true,
         fitColumns: true,
         toolbar: '#emp_toolbar',
@@ -43,101 +146,14 @@ $(function () {
         }
     });
 
-    $("#emp_dialog").dialog({
+    emp_dialog.dialog({
         width: 330,
         height: 320,
         buttons: '#emp_buttons',
         closed: true,
         onClose: function () {
-            $("#emp_form").form('clear');
+            emp_form.form('clear');
         }
     });
 
 })
-
-//新增按钮
-function add() {
-    //显示密码框
-    $("#tr_password").show();
-
-    $("#emp_dialog").dialog('open');
-    $("#emp_dialog").dialog('setTitle', '新增员工');
-}
-
-//编辑按钮
-function edit() {
-    var row = $("#emp_datagrid").datagrid('getSelected');
-    if (!row) {
-        //提示
-        $.messager.alert('温馨提示', '亲,请选中一条数据!');
-        return;
-    }
-
-    //隐藏密码框
-    $("#tr_password").hide();
-
-    if (row.dept) {
-        row["dept.id"] = row.dept.id;
-    }
-
-    //回显数据
-    $("#emp_form").form('load', row);
-
-    $("#emp_dialog").dialog('open');
-    $("#emp_dialog").dialog('setTitle', '编辑员工');
-}
-
-//离职按钮
-function changeState() {
-    var row = $("#emp_datagrid").datagrid('getSelected');
-    if (!row) {
-        //提示
-        $.messager.alert('温馨提示', '亲,请选中一条数据!');
-    }
-    $.messager.confirm('确认', '您确认设置为离职吗?', function (r) {
-        if (r) {
-            $.get('/employee/changeState.do', {id: row.id}, function (data) {
-                if (data.success) {
-                    $.messager.alert('温馨提示', '操作成功!', 'info', function () {
-                        $("#emp_datagrid").datagrid('reload');
-                    });
-                } else {
-                    $.messager.alert("温馨提示", data.msg);
-                }
-            });
-        }
-    });
-}
-
-//保存按钮
-function save() {
-    $("#emp_form").form('submit', {
-        url: '/employee/saveOrUpdate.do',
-        success: function (data) {
-            data = $.parseJSON(data);
-            if (data.success) {
-                $.messager.alert('温馨提示', '保存成功!', 'info', function () {
-                    //关闭对话框
-                    cancel();
-                    //重新加载数据表格
-                    //reload方法会保持在当前页
-                    $("#emp_datagrid").datagrid('reload');
-                });
-            } else {
-                $.messager.alert("温馨提示", data.msg);
-            }
-        }
-    });
-}
-
-//取消按钮
-function cancel() {
-    $("#emp_dialog").dialog("close");
-}
-
-//高级查询
-function searchs() {
-    //获取关键字内容
-    var value = $("#keyword").textbox('getValue');
-    $("#emp_datagrid").datagrid('load',{keyword:value});
-}

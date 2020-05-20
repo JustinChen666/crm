@@ -4,15 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <!--拷贝过来的4个必要引入需要修改文件的导入位置,按住ctrl按键移动鼠标,如果能点击进去就是成功引入了-->
-    <link rel="stylesheet" type="text/css" href="/static/plugins/easyui/themes/gray/easyui.css">
-    <link rel="stylesheet" type="text/css" href="/static/plugins/easyui/themes/icon.css">
-    <link rel="stylesheet" type="text/css" href="/static/plugins/easyui/themes/color.css">
-    <script type="text/javascript" src="/static/plugins/easyui/jquery.min.js"></script>
-    <script type="text/javascript" src="/static/plugins/easyui/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="/static/plugins/locale/easyui-lang-zh_CN.js"></script>
+    <%@include file="/static/common/common.jsp"%>
     <script type="text/javascript" src="/static/js/index.js"></script>
-
     <link rel="stylesheet" href="/static/css/reset.css">
     <link rel="stylesheet" href="/static/css/public.css">
 </head>
