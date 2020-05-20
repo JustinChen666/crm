@@ -91,6 +91,10 @@ $(function () {
 
     //所有权限
     var allPermissions = $("#allPermissions");
+
+    //已有权限
+    var selfPermissions = $("#selfPermissions");
+
     allPermissions.datagrid({
         height: 300,
         title: '所有权限',
@@ -98,17 +102,28 @@ $(function () {
         url:'/permission/selectAll.do',
         columns: [[
             {title:'权限名称',field:'name',width:100,align: 'center'}
-        ]]
+        ]],
+        onClickRow:function (index,row) {
+            //在已有权限中添加选中的数据
+            selfPermissions.datagrid('appendRow',row);
+            //把选中的数据从所有权限中移除掉
+            allPermissions.datagrid('deleteRow',index);
+        }
     });
 
-    //已有权限
-    var selfPermissions = $("#selfPermissions");
+
     selfPermissions.datagrid({
         height:300,
         title: '已有权限',
         fitColumns: true,
         columns: [[
             {title:'权限名称',field:'name',width:100,align:'center'}
-        ]]
+        ]],
+        onClickRow:function (index,row) {
+            //在所有权限中添加选中的数据
+            allPermissions.datagrid('appendRow',row);
+            //把选中的数据从已有权限中移除掉
+            selfPermissions.datagrid('deleteRow',index);
+        }
     });
 })
