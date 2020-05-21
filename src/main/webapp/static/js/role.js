@@ -21,9 +21,11 @@ $(function () {
                 $.messager.alert('温馨提示', '亲,请选中一条数据!');
                 return;
             }
-
-            //回显数据
+            //回显操作
             role_form.form('load', row);
+            //回显权限数据
+            //让已有权限的datagrid重新发送请求(load方法,带上当前选中的角色id做为参数)
+            selfPermissions.datagrid('load', {id: row.id});
             role_dialog.dialog('open');
             role_dialog.dialog('setTitle', '编辑角色');
         },
@@ -91,9 +93,13 @@ $(function () {
         width: 580,
         height: 450,
         buttons: '#role_buttons',
-        closed: true,
+        //closed: true,
         onClose: function () {
             role_form.form('clear');
+            //清空已有权限的数据(加载本地数据,只是数据为空而已)
+            selfPermissions.datagrid('loadData', []);
+            //重新把所有权限的数据查询出来
+            allPermissions.datagrid('reload');
         }
     });
 
@@ -124,6 +130,7 @@ $(function () {
         height: 300,
         title: '已有权限',
         fitColumns: true,
+        url: '/permission/selectByRoleId.do',
         columns: [[
             {title: '权限名称', field: 'name', width: 100, align: 'center'}
         ]],
@@ -132,6 +139,24 @@ $(function () {
             allPermissions.datagrid('appendRow', row);
             //把选中的数据从已有权限中移除掉
             selfPermissions.datagrid('deleteRow', index);
+        },
+        onLoadSuccess: function (data) {
+            //已有权限集合
+            console.log(data.rows);
+            //1.准备一个ids数组存储已有权限中的权限id
+            var ids = $.map(data.rows, function (p) {
+                return p.id;
+            });
+            //2.遍历所有权限的集合,取出每一个权限对象
+            //获取所有权限中的数据
+            var rows = allPermissions.datagrid('getRows');
+            for (var i = rows.length-1; i >=0; i--) {
+                //3.判断权限对象的id是否存在ids中,如果存在就从集合中移除掉
+                var index = $.inArray(rows[i].id, ids);
+                if(index>=0){
+                    allPermissions.datagrid('deleteRow',i);
+                }
+            }
         }
     });
 })

@@ -15,4 +15,5 @@ public interface IPermissionService {
 
     int updateByPrimaryKey(Permission record);
 
+    List<Permission> selectByRoleId(Long id);
 }

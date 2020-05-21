@@ -33,4 +33,8 @@ public class PermissionServiceImpl implements IPermissionService {
         return mapper.updateByPrimaryKey(record);
     }
 
+    public List<Permission> selectByRoleId(Long id) {
+        return mapper.selectByRoleId(id);
+    }
+
 }
