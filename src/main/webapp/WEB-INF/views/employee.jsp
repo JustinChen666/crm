@@ -71,6 +71,9 @@
                     }]">
                 </td>
             </tr>
+            <tr>
+                <td>角色:</td>
+            </tr>
         </table>
     </form>
 </div>

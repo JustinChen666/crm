@@ -93,7 +93,7 @@ $(function () {
         width: 580,
         height: 450,
         buttons: '#role_buttons',
-        //closed: true,
+        closed: true,
         onClose: function () {
             role_form.form('clear');
             //清空已有权限的数据(加载本地数据,只是数据为空而已)
