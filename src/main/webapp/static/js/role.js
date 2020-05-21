@@ -32,6 +32,14 @@ $(function () {
         save: function () {
             role_form.form('submit', {
                 url: '/role/saveOrUpdate.do',
+                onSubmit: function (param) {
+                    //获取已有权限中的数据
+                    var rows = selfPermissions.datagrid('getRows');
+                    for (var i = 0; i < rows.length; i++) {
+                        //添加额外的参数
+                        param["permissions[" + i + "].id"] = rows[i].id;
+                    }
+                },
                 success: function (data) {
                     data = $.parseJSON(data);
                     if (data.success) {
@@ -99,31 +107,31 @@ $(function () {
         height: 300,
         title: '所有权限',
         fitColumns: true,
-        url:'/permission/selectAll.do',
+        url: '/permission/selectAll.do',
         columns: [[
-            {title:'权限名称',field:'name',width:100,align: 'center'}
+            {title: '权限名称', field: 'name', width: 100, align: 'center'}
         ]],
-        onClickRow:function (index,row) {
+        onClickRow: function (index, row) {
             //在已有权限中添加选中的数据
-            selfPermissions.datagrid('appendRow',row);
+            selfPermissions.datagrid('appendRow', row);
             //把选中的数据从所有权限中移除掉
-            allPermissions.datagrid('deleteRow',index);
+            allPermissions.datagrid('deleteRow', index);
         }
     });
 
 
     selfPermissions.datagrid({
-        height:300,
+        height: 300,
         title: '已有权限',
         fitColumns: true,
         columns: [[
-            {title:'权限名称',field:'name',width:100,align:'center'}
+            {title: '权限名称', field: 'name', width: 100, align: 'center'}
         ]],
-        onClickRow:function (index,row) {
+        onClickRow: function (index, row) {
             //在所有权限中添加选中的数据
-            allPermissions.datagrid('appendRow',row);
+            allPermissions.datagrid('appendRow', row);
             //把选中的数据从已有权限中移除掉
-            selfPermissions.datagrid('deleteRow',index);
+            selfPermissions.datagrid('deleteRow', index);
         }
     });
 })

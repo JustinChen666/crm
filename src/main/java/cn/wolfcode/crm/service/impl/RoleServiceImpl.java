@@ -1,5 +1,6 @@
 package cn.wolfcode.crm.service.impl;
 
+import cn.wolfcode.crm.domain.Permission;
 import cn.wolfcode.crm.domain.Role;
 import cn.wolfcode.crm.mapper.RoleMapper;
 import cn.wolfcode.crm.query.QueryObject;
@@ -21,7 +22,14 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     public int insert(Role record) {
-        return mapper.insert(record);
+        int count = mapper.insert(record);
+        //关联关系
+        List<Permission> permissions = record.getPermissions();
+        for (Permission permission : permissions) {
+            mapper.insertRelation(record.getId(),permission.getId());
+        }
+        return count;
+
     }
 
     public Role selectByPrimaryKey(Long id) {
@@ -33,6 +41,8 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     public int updateByPrimaryKey(Role record) {
+        //打破关系
+        mapper.deleteRelation(record.getId());
         return mapper.updateByPrimaryKey(record);
     }
 
