@@ -43,13 +43,12 @@ public class RoleServiceImpl implements IRoleService {
     public int updateByPrimaryKey(Role record) {
         //打破关系
         mapper.deleteRelation(record.getId());
-        int i = mapper.updateByPrimaryKey(record);
         //关联关系
         List<Permission> permissions = record.getPermissions();
         for (Permission permission : permissions) {
             mapper.insertRelation(record.getId(),permission.getId());
         }
-        return i;
+        return mapper.updateByPrimaryKey(record);
     }
 
     public PageResult query(QueryObject query) {
@@ -61,5 +60,10 @@ public class RoleServiceImpl implements IRoleService {
         System.out.println(emps);
         return new PageResult(count, emps);
     }
+
+    public List<Long> selectByEmployeeId(Long id) {
+        return mapper.selectByEmployeeId(id);
+    }
+
 
 }

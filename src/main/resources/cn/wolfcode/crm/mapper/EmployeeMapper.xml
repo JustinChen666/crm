@@ -64,6 +64,14 @@
         <include refid="where_sql"/>
         limit #{start},#{rows}
     </select>
+    <!--关联关系-->
+    <insert id="insertRelation">
+    insert into employee_role(employee_id,role_id) values (#{employeeId},#{roleId})
+  </insert>
+    <!--打破关系-->
+    <delete id="deleteRelation">
+    delete from employee_role where employee_id = #{employeeId}
+  </delete>
     <sql id="base_column">
         select e.id, e.username, e.realname,e.tel, e.email, e.dept_id, e.hireDate, e.state, e.admin,
         d.id d_id,d.name d_name,d.sn d_sn,d.state d_state

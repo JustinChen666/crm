@@ -18,4 +18,6 @@ public interface IRoleService {
     int updateByPrimaryKey(Role record);
 
     PageResult query(QueryObject query);
+
+    List<Long> selectByEmployeeId(Long id);
 }

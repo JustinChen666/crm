@@ -15,7 +15,7 @@
     <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'" id="btn_changeState" data-cmd="changeState">设置离职</a>
     <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'" data-cmd="reload">刷新</a>
     <input class="easyui-textbox" id="keyword" prompt="请输入用户名或电话"/>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" data-cmd="searchs();"/>
+    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'" data-cmd="searchs"/>
 </div>
 
 <div id="emp_buttons">
@@ -73,6 +73,7 @@
             </tr>
             <tr>
                 <td>角色:</td>
+                <td><input id="role_combobox" class="easyui-combobox" data-options="multiple:'true',panelHeight:'auto',valueField:'id',textField:'name',url:'/role/selectAll.do'"/></td>
             </tr>
         </table>
     </form>

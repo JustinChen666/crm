@@ -10,12 +10,11 @@ $(function () {
         add: function () {
             //显示密码框
             $("#tr_password").show();
-
             emp_dialog.dialog('open');
             emp_dialog.dialog('setTitle', '新增员工');
         },
 
-//编辑按钮
+        //编辑按钮
         edit: function () {
             var row = emp_datagrid.datagrid('getSelected');
             if (!row) {
@@ -26,19 +25,22 @@ $(function () {
 
             //隐藏密码框
             $("#tr_password").hide();
-
+            //回显数据
             if (row.dept) {
                 row["dept.id"] = row.dept.id;
             }
-
-            //回显数据
             emp_form.form('load', row);
+
+            //通过异步请求来获取员工的角色id集合
+            $.get("/role/selectByEmployeeId.do", {id: row.id}, function (data) {
+                $("#role_combobox").combobox('setValues', data);
+            });
 
             emp_dialog.dialog('open');
             emp_dialog.dialog('setTitle', '编辑员工');
         },
 
-//离职按钮
+        //离职按钮
         changeState: function () {
             var row = emp_datagrid.datagrid('getSelected');
             if (!row) {
@@ -60,10 +62,18 @@ $(function () {
             });
         },
 
-//保存按钮
+        //保存按钮
         save: function () {
             emp_form.form('submit', {
                 url: '/employee/saveOrUpdate.do',
+                onSubmit: function (param) {
+                    //获取角色下拉框中的数据
+                    var ids = $("#role_combobox").combobox('getValues');
+                    for (var i = 0; i < ids.length; i++) {
+                        //添加额外的参数
+                        param["roles[" + i + "].id"] = ids[i];
+                    }
+                },
                 success: function (data) {
                     data = $.parseJSON(data);
                     if (data.success) {
@@ -81,12 +91,12 @@ $(function () {
             });
         },
 
-//取消按钮
+        //取消按钮
         cancel: function () {
             emp_dialog.dialog("close");
         },
 
-//高级查询
+        //高级查询
         searchs: function () {
             //获取关键字内容
             var value = $("#keyword").textbox('getValue');
@@ -148,7 +158,7 @@ $(function () {
 
     emp_dialog.dialog({
         width: 330,
-        height: 320,
+        height: 430,
         buttons: '#emp_buttons',
         closed: true,
         onClose: function () {

@@ -1,6 +1,8 @@
 package cn.wolfcode.crm.service.impl;
 
 import cn.wolfcode.crm.domain.Employee;
+import cn.wolfcode.crm.domain.Permission;
+import cn.wolfcode.crm.domain.Role;
 import cn.wolfcode.crm.mapper.EmployeeMapper;
 import cn.wolfcode.crm.query.EmployeeQuery;
 import cn.wolfcode.crm.service.IEmployeeService;
@@ -21,7 +23,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
     }
 
     public int insert(Employee record) {
-        return mapper.insert(record);
+        int count = mapper.insert(record);
+        //关联关系
+        List<Role> roles = record.getRoles();
+        for (Role role : roles) {
+            mapper.insertRelation(record.getId(), role.getId());
+        }
+        return count;
     }
 
     public Employee selectByPrimaryKey(Long id) {
@@ -33,6 +41,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
     }
 
     public int updateByPrimaryKey(Employee record) {
+        //打破关系
+        mapper.deleteRelation(record.getId());
+        //关联关系
+        List<Role> roles = record.getRoles();
+        for (Role role : roles) {
+            mapper.insertRelation(record.getId(), role.getId());
+        }
         return mapper.updateByPrimaryKey(record);
     }
 

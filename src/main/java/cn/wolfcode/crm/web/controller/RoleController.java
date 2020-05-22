@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("role")
 public class RoleController {
@@ -42,6 +44,18 @@ public class RoleController {
             e.printStackTrace();
             return new JsonResult().mark("操作失败!");
         }
+    }
+
+    @RequestMapping("selectAll")
+    @ResponseBody
+    public List<Role> selectAll(){
+        return roleService.selectAll();
+    }
+
+    @RequestMapping("selectByEmployeeId")
+    @ResponseBody
+    public List<Long> selectByEmployeeId(Long id) {
+        return roleService.selectByEmployeeId(id);
     }
 
 }

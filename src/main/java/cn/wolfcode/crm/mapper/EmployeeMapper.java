@@ -3,6 +3,7 @@ package cn.wolfcode.crm.mapper;
 import cn.wolfcode.crm.domain.Employee;
 import cn.wolfcode.crm.query.EmployeeQuery;
 import cn.wolfcode.crm.query.QueryObject;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,4 +23,8 @@ public interface EmployeeMapper {
     List<Employee> query4List(QueryObject query);
 
     void changeState(Long id);
+
+    void insertRelation(@Param("employeeId") Long employeeId, @Param("roleId") Long roleId);
+
+    void deleteRelation(Long id);
 }
