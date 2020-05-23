@@ -5,6 +5,8 @@ import cn.wolfcode.crm.query.EmployeeQuery;
 import cn.wolfcode.crm.service.IEmployeeService;
 import cn.wolfcode.crm.util.JsonResult;
 import cn.wolfcode.crm.util.PageResult;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,18 +20,21 @@ public class EmployeeController {
     IEmployeeService employeeService;
 
     @RequestMapping("view")
+    @RequiresPermissions(value = {"employee:view","员工页面"},logical = Logical.OR)
     public String index() {
         return "employee";
     }
 
     @RequestMapping("list")
     @ResponseBody
+    @RequiresPermissions(value = {"employee:list","员工列表"},logical = Logical.OR)
     public PageResult list(EmployeeQuery query) {
         return employeeService.query(query);
     }
 
     @RequestMapping("saveOrUpdate")
     @ResponseBody
+    @RequiresPermissions(value = {"employee:saveOrUpdate","员工新增/编辑"},logical = Logical.OR)
     public JsonResult saveOrUpdate(Employee employee) {
         try {
             if (employee.getId() != null) {
@@ -48,6 +53,7 @@ public class EmployeeController {
 
     @RequestMapping("changeState")
     @ResponseBody
+    @RequiresPermissions(value = {"employee:changeState","员工状态"},logical = Logical.OR)
     public JsonResult changeState(Long id) {
         try {
             employeeService.changeState(id);

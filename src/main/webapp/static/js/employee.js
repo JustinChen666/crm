@@ -158,7 +158,7 @@ $(function () {
 
     emp_dialog.dialog({
         width: 330,
-        height: 430,
+        height: 420,
         buttons: '#emp_buttons',
         closed: true,
         onClose: function () {

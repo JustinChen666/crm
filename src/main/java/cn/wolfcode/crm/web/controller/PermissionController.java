@@ -29,4 +29,11 @@ public class PermissionController {
     public List<Permission> selectByRoleId(Long id){
         return permissionService.selectByRoleId(id);
     }
+
+    @RequestMapping("load")
+    @ResponseBody
+    public void load(){
+        permissionService.load();
+    }
+
 }
