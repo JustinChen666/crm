@@ -1,6 +1,6 @@
 $(function () {
     $("#menu").tree({
-        url: '/static/json/menu.json',
+        url: '/menu/getRootMenu.do',
         onClick: function (node) {
             //根据标题判断选项卡是否存在
             if ($("#tabs").tabs("exists", node.text)) {
