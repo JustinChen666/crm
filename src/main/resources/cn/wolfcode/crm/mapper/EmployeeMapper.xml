@@ -72,6 +72,10 @@
     <delete id="deleteRelation">
     delete from employee_role where employee_id = #{employeeId}
   </delete>
+    <!--根据用户名查询员工对象-->
+    <select id="selectByUsername" resultMap="BaseResultMap">
+        select * from employee where username=#{username}
+    </select>
     <sql id="base_column">
         select e.id, e.username, e.realname,e.tel, e.email, e.dept_id, e.hireDate, e.state, e.admin,
         d.id d_id,d.name d_name,d.sn d_sn,d.state d_state

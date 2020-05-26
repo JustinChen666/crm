@@ -27,4 +27,6 @@ public interface EmployeeMapper {
     void insertRelation(@Param("employeeId") Long employeeId, @Param("roleId") Long roleId);
 
     void deleteRelation(Long id);
+
+    Employee selectByUsername(String username);
 }
