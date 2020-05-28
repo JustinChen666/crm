@@ -1,7 +1,11 @@
 package cn.wolfcode.crm.realm;
 
 import cn.wolfcode.crm.domain.Employee;
+import cn.wolfcode.crm.domain.Permission;
+import cn.wolfcode.crm.domain.Role;
 import cn.wolfcode.crm.mapper.EmployeeMapper;
+import cn.wolfcode.crm.mapper.PermissionMapper;
+import cn.wolfcode.crm.mapper.RoleMapper;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -14,7 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class MyRealm extends AuthorizingRealm {
     @Autowired
-    EmployeeMapper mapper;
+    EmployeeMapper employeeMapper;
+    @Autowired
+    PermissionMapper permissionMapper;
+    @Autowired
+    RoleMapper roleMapper;
 
     /**
      * 认证
@@ -27,7 +35,7 @@ public class MyRealm extends AuthorizingRealm {
         //获取登录表单中的用户名
         Object tokenPrincipal = token.getPrincipal();
         //查询数据库中是否拥有该用户
-        Employee employee = mapper.selectByUsername((String) tokenPrincipal);
+        Employee employee = employeeMapper.selectByUsername((String) tokenPrincipal);
         if (employee == null) {
             return null;
         }
@@ -50,6 +58,8 @@ public class MyRealm extends AuthorizingRealm {
             info.addRole("admin");
         } else {
             //查询数据库的权限和角色相关信息
+            info.addStringPermissions(permissionMapper.selectByEmployeeId(employee.getId()));
+            info.addStringPermissions(roleMapper.selectRoleSnByEmployeeId(employee.getId()));
         }
         return info;
     }

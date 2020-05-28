@@ -61,8 +61,8 @@ public class RoleServiceImpl implements IRoleService {
         return new PageResult(count, emps);
     }
 
-    public List<Long> selectByEmployeeId(Long id) {
-        return mapper.selectByEmployeeId(id);
+    public List<Long> selectRoleIdByEmployeeId(Long id) {
+        return mapper.selectRoleIdByEmployeeId(id);
     }
 
 

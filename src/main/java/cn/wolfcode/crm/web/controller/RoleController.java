@@ -58,7 +58,7 @@ public class RoleController {
     @RequestMapping("selectByEmployeeId")
     @ResponseBody
     public List<Long> selectByEmployeeId(Long id) {
-        return roleService.selectByEmployeeId(id);
+        return roleService.selectRoleIdByEmployeeId(id);
     }
 
 }

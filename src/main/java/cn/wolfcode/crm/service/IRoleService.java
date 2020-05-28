@@ -19,5 +19,5 @@ public interface IRoleService {
 
     PageResult query(QueryObject query);
 
-    List<Long> selectByEmployeeId(Long id);
+    List<Long> selectRoleIdByEmployeeId(Long id);
 }
