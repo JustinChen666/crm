@@ -2,6 +2,7 @@ package cn.wolfcode.crm.web.filter;
 
 import cn.wolfcode.crm.util.JsonResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -25,10 +26,10 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
         String errorMsg = "登录异常,请联系管理员!";
 
         //判断异常对象是属于哪种异常
-        if(e instanceof UnknownAccountException){
+        if (e instanceof UnknownAccountException) {
             errorMsg = "用户名不存在!";
-        }else if (e instanceof IncorrectCredentialsException){
-            errorMsg="密码错误!";
+        } else if (e instanceof IncorrectCredentialsException) {
+            errorMsg = "密码错误!";
         }
         try {
             //使用字符流
@@ -37,5 +38,25 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
             e1.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * 解决不能重复登录问题 所有路径authc都经过该方法
+     *
+     * @param request
+     * @param response
+     * @param mappedValue
+     * @return
+     */
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        //判断当前是否是登录请求
+        if (isLoginRequest(request, response)) {
+            //判断是否是登录状态,如果有就注销掉
+            Subject subject = SecurityUtils.getSubject();
+            if (subject.isAuthenticated()) {
+                subject.logout();
+            }
+        }
+        return super.isAccessAllowed(request, response, mappedValue);
     }
 }
