@@ -37,6 +37,8 @@ public class MyFormAuthenticationFilter extends FormAuthenticationFilter {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+        //打印异常
+        e.printStackTrace();
         return false;
     }
 

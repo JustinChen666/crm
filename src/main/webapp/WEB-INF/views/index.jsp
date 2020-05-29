@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -17,7 +18,7 @@
                 <div class="content">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img  src="http://www.wolfcode.cn/img/wolfcode/logo.png"/>
                     <div class="public-header-admin fr">
-                        <p class="admin-name"><font  color ="green">您好！</font> </p>
+                        <p class="admin-name"><font  color ="green">您好！<shiro:principal property="username"/></font> </p>
                         <div class="public-header-fun fr">
                             <a href="/logout.do" class="public-header-loginout">安全退出</a>
                         </div>

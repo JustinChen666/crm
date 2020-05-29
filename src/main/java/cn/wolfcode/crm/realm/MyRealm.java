@@ -14,6 +14,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class MyRealm extends AuthorizingRealm {
@@ -40,11 +41,13 @@ public class MyRealm extends AuthorizingRealm {
             return null;
         }
         //返回认证信息对象
-        return new SimpleAuthenticationInfo(employee, employee.getPassword(), this.getName());
+        return new SimpleAuthenticationInfo(employee, employee.getPassword(), ByteSource.Util.bytes(employee.getUsername()),
+                this.getName());
     }
 
     /**
      * 授权
+     *
      * @param principals
      * @return
      */
